@@ -1,12 +1,36 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <Navigation></Navigation>
+    <img src="./assets/logo.png">
+    <!-- <img src="./assets/gvsu2.jpg"> -->
+    <!-- <h1>Cinemas</h1> -->
+    <div class="movie-grid">
+     <!-- <Movies></Movies>  -->
+
     </div>
+    
     <router-view/>
+    
   </div>
 </template>
+
+<script>
+import Navigation from './components/Navigation'
+//import Movies from './components/Movies'
+
+export default {
+name: 'app',
+data() {
+
+},
+components: {
+  Navigation,
+  //Movies
+
+}
+
+}
+</script>
 
 <style>
 #app {
@@ -28,4 +52,7 @@
 #nav a.router-link-exact-active {
   color: #42b983;
 }
+/* .movies {
+  display: block;
+} */
 </style>
