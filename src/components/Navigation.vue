@@ -1,19 +1,38 @@
 <template>
   <div>
-    <h2>Nav Bar</h2> <!--remember to remove h2 tag and text--->
+    <!-- <h2>Nav Bar</h2> remember to remove h2 tag and text- -->
     <nav>
-      <router-link class="spacing" v-for="routes in links" 
+    <!-- <nav > v-if="authenticated"> -->
+      <!-- <router-link class="spacing"  v-for="routes in links" 
       v-bind:key="routes.id"
-      :to="`${routes.page}`">{{routes.text}}</router-link>
+      :to="`${routes.page}`">{{routes.text}}</router-link> -->
+      <router-link class="spacing" to="/">Home</router-link>
+      <router-link class="spacing" to="/about">About</router-link>
+      <!-- <router-link class="spacing" to="/sign">Sign Up</router-link> -->
+       
+       <!-- Passed props set from App to Naivation -->
+       <router-link class="spacing" v-show="authenticated" to="/login" v-on:click.native="logout()" replace>Logout</router-link>
+      
+
+      
     </nav>
   </div>
 </template>
 
 <script>
+  import { MYDB } from "../myFirebaseInit";
+  import firebase from '@firebase/app';
+  import { METHODS } from 'http';
+  require('firebase/auth');
+
 export default {
   name: 'Navigation',
+  props: {
+    authenticated: Boolean
+  },
   data() {
     return {
+      authenticated,
       links: [
         // {
         //   id: 0,
@@ -42,8 +61,27 @@ export default {
         }
       ]
     }
+  },
+
+    methods: {
+            setAuthenticated(status) {
+                this.authenticated = status;
+                this.$emit("authenticated", status); 
+
+            },
+            logout() {
+                this.authenticated = false;
+                this.$emit("authenticated", false); 
+                MYDB.ref(authenticated).remove(firebase.auth().currentUser);
+            }
+        },
+
+        
+
+
+
   }
-}
+//}
 </script>
 <style  scoped> 
   .spacing { 

@@ -2,7 +2,9 @@
   <div>
     <h1>Grand Valley's Home for Movies</h1>
     <!-- <p>Currently showing at GVSU Cinemans</p> -->
+    <div class="movieBox">
     <movies></movies>
+    </div>
 
   </div>
 </template>
@@ -13,7 +15,7 @@ import Login from '@/components/Login' //importing to get authUsers array props 
 
 export default {
   name: 'Home', //this is the name of the component
-  props: [authUsers], //may not need as a prop when importing
+  //props: [authUsers], //may not need as a prop when importing
 //   data() {      
 
 //   },
@@ -22,5 +24,5 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped>
 </style>

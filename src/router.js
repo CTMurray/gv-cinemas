@@ -10,7 +10,7 @@ import Navigation from '@/components/Navigation'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     // {
     //   path: '/',
@@ -52,4 +52,24 @@ export default new Router({
       component: Navigation
     }
   ]
-})
+});
+
+export default router;
+
+// http://router.vuejs.org/en/advanced/meta.html
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!Firebase.auth().currentUser) {
+      next({
+        path: '/login',
+        query: {
+          redirect: to.fullPath,
+        },
+      });
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
+});

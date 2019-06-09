@@ -34,7 +34,7 @@
               email: this.email
               
               });
-
+            this.$emit("authenticated", true);
             this.$router.replace('home')
           },
           (err) => {

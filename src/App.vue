@@ -1,33 +1,62 @@
 <template>
   <div id="app">
-    <Navigation></Navigation>
+    <!-- <router-link v-if="this.authenticated" to="/login" v-on:click.native="logout()" replace>Logout</router-link> -->
+    <Navigation @authenticated="setAuthenticated" :authenticated ="authenticated" />
+    
     <img src="./assets/logo.png">
+    <router-view @authenticated="setAuthenticated" />
     <!-- <img src="./assets/gvsu2.jpg"> -->
-    <!-- <h1>Cinemas</h1> -->
+    
     <div class="movie-grid">
      <!-- <Movies></Movies>  -->
 
     </div>
     
-    <router-view/>
+    <!-- <router-view/> -->
     
   </div>
 </template>
 
 <script>
+
 import Navigation from './components/Navigation'
-//import Movies from './components/Movies'
+import Login from './components/Login'
+import About from './components/About'
 
 export default {
 name: 'app',
 data() {
+  return{
+  authenticated: false
+  }
 
 },
+//if user isn't authenticated should display the login page
+mounted() {
+            if(!this.authenticated) {
+                this.$router.replace({ name: "Login" });
+            }
+},
+
 components: {
   Navigation,
-  //Movies
+  Login,
+  About
 
-}
+},
+methods: {
+            setAuthenticated(status) {
+                this.authenticated = status;
+                this.$emit("authenticated", status); 
+
+            },
+            logout() {
+                this.authenticated = false;
+                this.$emit("authenticated", false); 
+            }
+        },
+
+        
 
 }
 </script>
