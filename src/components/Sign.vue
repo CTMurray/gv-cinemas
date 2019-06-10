@@ -24,6 +24,7 @@
       signUp: function() {
         firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(
           (user) => {
+            //create new user
             MYDB.ref("users").push().set({
 
               email: this.email, 

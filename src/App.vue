@@ -53,6 +53,7 @@ methods: {
             logout() {
                 this.authenticated = false;
                 this.$emit("authenticated", false); 
+                MYDB.ref("authenticated/" ).remove();
             }
         },
 

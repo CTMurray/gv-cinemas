@@ -5,9 +5,11 @@
             <!-- <span @mouseleave="getMovies" class="container" v-for="m in movies" v-bind:key="m.id"  -->
             <div class="movielist" v-for="m in movies" v-bind:key="m.id"> 
                 <img :src="m.poster_path"> 
-            <div class="details"> 
-                <h2> {{m.title}}</h2> <b>Release Date {{m.release_date}} </b>
-            </div> 
+                <div class="details"> 
+                    <h2> {{m.title}}</h2> <b>Release Date {{m.release_date}} </b>
+                    <div class="times" @click="reserve" v-for="m in movieTimes" v-bind:key="m.id" 
+                    @mouseover="mouseOver" >{{movie.time}} </div>
+                </div> 
             
             </div> 
 
@@ -23,14 +25,28 @@
 export default {
     //props:
     data() {
+
+        movieTimes: [
+            {time: "12:00 PM", seats: 30}, 
+            {time: "3:00 PM", seats: 30}, 
+            {time: "6:00 PM", seats: 30}, 
+            {time: "9:00 PM", seats: 30},
+        ]
+
         //movies = [];
         iurl: "https://image.tmdb.org/t/p/w185";
         return {
             movies: [
                 {id: 458156, title:  "John Wick: Chapter 3 – Parabellum" , release_date: "2019-05-15", poster_path: "https://image.tmdb.org/t/p/w185/ziEuG1essDuWuC5lpWUaw1uXY2O.jpg"},
                 {id: 420817, title:  "Aladdin" , release_date: "2019-05-15", poster_path: "https://image.tmdb.org/t/p/w185/3iYQTLGoy7QnjcUYRJy4YrAgGvp.jpg"}
-            ]
-            
+            ],
+
+            movieTimes: [
+            {time: "12:00 PM", seats: 30}, 
+            {time: "3:00 PM", seats: 30}, 
+            {time: "6:00 PM", seats: 30}, 
+            {time: "9:00 PM", seats: 30},
+        ]
         }
     },
 
@@ -63,7 +79,9 @@ methods: {
         .then(r => r.json())
         .then(d => {
             //this.movies.push(`{{d.results.title}}`, `{{d.results.release_date}}`, `{{d.results.title}}`)
-            this.movies = d.results;
+            //var merged = [].concat.apply([], arr);
+            rData =  d.results.concat.apply((movieTimes));
+            this.movies = rData; //(d.results.push({...movieTimes}));
         });
     },
     //convert to v-for
@@ -74,7 +92,17 @@ methods: {
         }
 
 
+    },
+    reserve: function() {
+        console.log("The current seats are:" + this.movies.id);
+
+    },
+
+    mouseOver: function() {
+
     }
+
+
 
 },
 created() {
@@ -96,10 +124,33 @@ created() {
         });
         
     }
+
 };
 </script>
 
-<style>
+<style scoped>
+
+.times {
+    display: flex;
+    justify-content: space-around;
+    width: 80px;
+    border-collapse: separate;
+    background-color: lightskyblue;
+
+    border: 1px solid black;
+    padding: 3px;
+    margin-left: 0.5rem;
+    user-select: none;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: white;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
+    white-space: nowrap;
+}
+
+/* .times:hover {
+    
+} */
 
 /* .details {
     display: grid;
@@ -129,9 +180,6 @@ span + img {
     border-collapse: separate;
     float: left;
     margin: 2px;
-    
-   
-
 }
 img + h2 {
     float: right;
@@ -148,7 +196,7 @@ h2 + p {
     float: right;
     justify-content: space-between;
     text-align: left;
-    
+    /* border: 1px solid green; */
     
         
     
