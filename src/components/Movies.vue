@@ -32,52 +32,85 @@ export default {
         }
     },
 
-    methods: {
-        getMovies() {
-            //url to obtain 
-            let url = `https://api.themoviedb.org/3/movie/now_playing?api_key=1018aeb5095f005f4feaa53d9169e7c8&language=en-US&page=1`;
-
-            fetch(url)
-            .then(r => r.json())
-            .then(d => {
-                //this.movies.push(`{{d.results.title}}`, `{{d.results.release_date}}`, `{{d.results.title}}`)
-                this.movies = d.results;
-            });
-        },
-        //convert to v-for
-        modPoster: function (movies){
-            var iurl = "https://image.tmdb.org/t/p/w185";
-            for(let i = 0; i < movies.length; i++ ){
-                movies[i].poster_path = iurl + movies[i].poster_path;
-            }
+//don't need watch yet
+// watch: {
+//     movies: function (newVal, oldVal) {
+//     //url to obtain 
+//         let url = `https://api.themoviedb.org/3/movie/now_playing?api_key=1018aeb5095f005f4feaa53d9169e7c8&language=en-US&page=1`;
+       
+//         fetch(url)
+//         .then(r => r.json())
+//         .then(d => {
+//             //this.movies.push(`{{d.results.title}}`, `{{d.results.release_date}}`, `{{d.results.title}}`)
+//             this.movies = d.results;
+//             console.log(this.movies);
+//         });
+//     }
 
 
+//     },
+
+    
+
+methods: {
+    getMovies() {
+        //url to obtain 
+        let url = `https://api.themoviedb.org/3/movie/now_playing?api_key=1018aeb5095f005f4feaa53d9169e7c8&language=en-US&page=1`;
+
+        fetch(url)
+        .then(r => r.json())
+        .then(d => {
+            //this.movies.push(`{{d.results.title}}`, `{{d.results.release_date}}`, `{{d.results.title}}`)
+            this.movies = d.results;
+        });
+    },
+    //convert to v-for
+    modPoster: function (movies){
+        var iurl = "https://image.tmdb.org/t/p/w185";
+        for(let i = 0; i < movies.length; i++ ){
+            movies[i].poster_path = iurl + movies[i].poster_path;
         }
 
-    },
-    created() {
-         //url to obtain 
-            let url = `https://api.themoviedb.org/3/movie/now_playing?api_key=1018aeb5095f005f4feaa53d9169e7c8&language=en-US&page=1`;
 
-            //let iurl = "https://image.tmdb.org/t/p/w185";
+    }
 
-            fetch(url)
-            .then(r => r.json())
-            .then(d => {
+},
+created() {
+     //url to obtain 
+        let url = `https://api.themoviedb.org/3/movie/now_playing?api_key=1018aeb5095f005f4feaa53d9169e7c8&language=en-US&page=1`;
 
-                //this.movies.push(d.results.id,d.results.title, d.results.release_date, d.results.poster_path = iurl + d.results.poster_path);
+        //let iurl = "https://image.tmdb.org/t/p/w185";
+
+        fetch(url)
+        .then(r => r.json())
+        .then(d => {
+
+            //this.movies.push(d.results.id,d.results.title, d.results.release_date, d.results.poster_path = iurl + d.results.poster_path);
            
-                this.movies = d.results;
-                // works to build the poster path
-                this.modPoster(this.movies);
-
-            });
+            this.movies = d.results;
+            // works to build the poster path
+            this.modPoster(this.movies);
+            
+        });
         
     }
 };
 </script>
 
 <style>
+
+/* .details {
+    display: grid;
+    flex-direction: row;
+    float: right;
+    width: 300px;
+    word-wrap: wrap;
+    grid-column-start: 2;
+    align-content: space-around;
+    border: 2px solid black;
+    position: relative;
+    margin: 2px;
+} */
 
 body {
     background-color: aliceblue;
@@ -93,12 +126,15 @@ body {
 .movielist {
     border-collapse: separate;
     float: left;
-    margin: 2px;
     padding-bottom: 50px;
 }
 #title {
     float: top right;
 }
+/* h2 + p {
+    float: right;
+    word-wrap: normal;
+} */
 
 .details{
     float: right;
