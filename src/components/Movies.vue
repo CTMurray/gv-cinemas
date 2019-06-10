@@ -3,10 +3,13 @@
         <!-- Movies will go here -->
         <div id="container">
             <!-- <span @mouseleave="getMovies" class="container" v-for="m in movies" v-bind:key="m.id"  -->
-            <div class="movielist" v-for="m in movies" v-bind:key="m.id"             
-            > <img :src="m.poster_path"> <h2> {{m.title}}</h2> 
-            <div class="details"> Release Date <b>{{m.release_date}} </b>  </div> </div 
-            > 
+            <div class="movielist" v-for="m in movies" v-bind:key="m.id"> 
+                <img :src="m.poster_path"> 
+            <div class="details"> 
+                <h2> {{m.title}}</h2> <b>Release Date {{m.release_date}} </b>
+            </div> 
+            
+            </div> 
 
             <!-- {{m.overview}} -->
 
@@ -126,14 +129,29 @@ span + img {
     border-collapse: separate;
     float: left;
     margin: 2px;
+    
+   
+
 }
 img + h2 {
     float: right;
-    align-content: center;
+    align-content: left;
 }
 h2 + p {
     float: right;
     word-wrap: normal;
+}
+
+.details {
+    display: flex;
+    flex-direction: column;
+    float: right;
+    justify-content: space-between;
+    text-align: left;
+    
+    
+        
+    
 }
 
 </style>
