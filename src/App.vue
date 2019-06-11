@@ -1,88 +1,38 @@
 <template>
-  <div id="app">
-    <!-- <router-link v-if="this.authenticated" to="/login" v-on:click.native="logout()" replace>Logout</router-link> -->
-    <Navigation @authenticated="setAuthenticated" :authenticated ="authenticated" />
-    
-    <img src="./assets/logo.png">
-    <router-view @authenticated="setAuthenticated" />
-    <!-- <img src="./assets/gvsu2.jpg"> -->
-    
-    <div class="movie-grid">
-     <!-- <Movies></Movies>  -->
+  <v-app>
+    <v-toolbar app>
+      <v-toolbar-title class="headline text-uppercase">
+        <span>Vuetify</span>
+        <span class="font-weight-light">MATERIAL DESIGN</span>
+      </v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn
+        flat
+        href="https://github.com/vuetifyjs/vuetify/releases/latest"
+        target="_blank"
+      >
+        <span class="mr-2">Latest Release</span>
+      </v-btn>
+    </v-toolbar>
 
-    </div>
-    
-    <!-- <router-view/> -->
-    
-  </div>
+    <v-content>
+      <HelloWorld/>
+    </v-content>
+  </v-app>
 </template>
 
 <script>
-
-import Navigation from './components/Navigation'
-import Login from './components/Login'
-import About from './components/About'
+import HelloWorld from './components/HelloWorld'
 
 export default {
-name: 'app',
-data() {
-  return{
-  authenticated: false
+  name: 'App',
+  components: {
+    HelloWorld
+  },
+  data () {
+    return {
+      //
+    }
   }
-
-},
-//if user isn't authenticated should display the login page
-mounted() {
-            if(!this.authenticated) {
-                this.$router.replace({ name: "Login" });
-            }
-},
-
-components: {
-  Navigation,
-  Login,
-  About
-
-},
-methods: {
-            setAuthenticated(status) {
-                this.authenticated = status;
-                this.$emit("authenticated", status); 
-
-            },
-            logout() {
-                this.authenticated = false;
-                this.$emit("authenticated", false); 
-                MYDB.ref("authenticated/" ).remove();
-            }
-        },
-
-        
-
 }
 </script>
-
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-/* .movies {
-  display: block;
-} */
-</style>
