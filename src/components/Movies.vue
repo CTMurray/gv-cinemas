@@ -3,18 +3,21 @@
         <!-- Movies will go here -->
         <div id="container">
             <!-- <span @mouseleave="getMovies" class="container" v-for="m in movies" v-bind:key="m.id"  -->
-            <div class="movielist" v-for="mo in movies" v-bind:key="mo.id"> 
-                <img :src="mo.poster_path"> 
-                <div class="details"> 
-                    <h2> {{mo.title}}</h2> <b>Release Date {{mo.release_date}} </b>
-                    <div class="times" id="id++" v-for="m in movieTimes" @click ="reserve(m.id)" v-bind:key="m.id" 
-                       >{{m.time}} </div>
-                </div> 
-            
-            </div> 
-
-            <!-- {{m.overview}} -->
-
+            <div class="movielist" v-for="m in movies" v-bind:key="m.id">
+                <img :src="m.poster_path">
+                
+                <div class="details">
+                    <table>
+                        <th id="title"> {{m.title}}</th>
+                        <tr><a>Release Date: {{m.release_date}}</a></tr>
+                        <tr>
+                            <label> {{m.mvReservation}} Spots Remaining </label>
+                            <button v-on:click="subtract(m)">Reserve</button>
+                        </tr>
+                    </table>
+                </div>
+                
+            </div> <!-- {{m.overview}} -->
         </div>
 
     </div>
@@ -22,33 +25,14 @@
 </template>
 
 <script>
+import { MYDB } from "../myFirebaseInit";
 export default {
-    //props:
+    
     data() {
-        id: 0
-
-        movieTimes: [
-            {time: "12:00 PM", seats: 30, id: 0}, 
-            {time: "3:00 PM", seats: 30, id: 1}, 
-            {time: "6:00 PM", seats: 30, id: 2}, 
-            {time: "9:00 PM", seats: 30, id: 3},
-        ]
-
         //movies = [];
         iurl: "https://image.tmdb.org/t/p/w185";
         return {
-            movies: [
-                {id: 458156, title:  "John Wick: Chapter 3 – Parabellum" , release_date: "2019-05-15", poster_path: "https://image.tmdb.org/t/p/w185/ziEuG1essDuWuC5lpWUaw1uXY2O.jpg"},
-                {id: 420817, title:  "Aladdin" , release_date: "2019-05-15", poster_path: "https://image.tmdb.org/t/p/w185/3iYQTLGoy7QnjcUYRJy4YrAgGvp.jpg"}
-            ],
-
-            movieTimes: [
-            {time: "12:00 PM", seats: 30}, 
-            {time: "3:00 PM", seats: 30}, 
-            {time: "6:00 PM", seats: 30}, 
-            {time: "9:00 PM", seats: 30},
-        ],
-        id: 0
+            movies: [],
         }
     },
 
@@ -81,9 +65,7 @@ methods: {
         .then(r => r.json())
         .then(d => {
             //this.movies.push(`{{d.results.title}}`, `{{d.results.release_date}}`, `{{d.results.title}}`)
-            //var merged = [].concat.apply([], arr);
-            rData =  d.results.concat.apply((movieTimes));
-            this.movies = rData; //(d.results.push({...movieTimes}));
+            this.movies = d.results;
         });
     },
     //convert to v-for
@@ -92,22 +74,19 @@ methods: {
         for(let i = 0; i < movies.length; i++ ){
             movies[i].poster_path = iurl + movies[i].poster_path;
         }
-
-
-    },
-    reserve: function(id) {
-
-        // console.log("The current seats are:" + this.movieTimes.seats);
-        console.log("The current id is:" + this.id);
-
-    },
-
-    mouseOver: function() {
         
+        for(let i = 0; i < movies.length; i++ ){
+            movies[i].mvReservation = 30;
+        }
 
+    },
+
+    subtract(m){
+        console.log(m);
+        m.mvReservation -= 1;
+        console.log(m);
+        // return m;
     }
-
-
 
 },
 created() {
@@ -129,46 +108,10 @@ created() {
         });
         
     }
-
 };
 </script>
 
-<style scoped>
-
-.times {
-    display: flex;
-    justify-content: space-around;
-    width: 80px;
-    border-collapse: separate;
-    background-color: lightskyblue;
-
-    border: 1px solid black;
-    padding: 3px;
-    margin-left: 0.5rem;
-    user-select: none;
-    margin-bottom: 0.5rem;
-    font-weight: bold;
-    color: white;
-    text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
-    white-space: nowrap;
-}
-
-/* .times:hover {
-    
-} */
-
-/* .details {
-    display: grid;
-    flex-direction: row;
-    float: right;
-    width: 300px;
-    word-wrap: wrap;
-    grid-column-start: 2;
-    align-content: space-around;
-    border: 2px solid black;
-    position: relative;
-    margin: 2px;
-} */
+<style>
 
 body {
     background-color: aliceblue;
@@ -181,30 +124,22 @@ body {
     justify-items: start;
     word-wrap: wrap;
 }
-span + img {
+.movielist {
     border-collapse: separate;
     float: left;
-    margin: 2px;
+    padding-bottom: 50px;
 }
-img + h2 {
-    float: right;
-    align-content: left;
+#title {
+    float: left;
 }
-h2 + p {
+/* h2 + p {
     float: right;
     word-wrap: normal;
-}
+} */
 
-.details {
-    display: flex;
-    flex-direction: column;
+.details{
     float: right;
-    justify-content: space-between;
-    text-align: left;
-    /* border: 1px solid green; */
-    
-        
-    
+    padding: 25px;
 }
 
 </style>
