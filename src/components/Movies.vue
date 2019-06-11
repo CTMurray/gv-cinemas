@@ -3,12 +3,12 @@
         <!-- Movies will go here -->
         <div id="container">
             <!-- <span @mouseleave="getMovies" class="container" v-for="m in movies" v-bind:key="m.id"  -->
-            <div class="movielist" v-for="m in movies" v-bind:key="m.id"> 
-                <img :src="m.poster_path"> 
+            <div class="movielist" v-for="mo in movies" v-bind:key="mo.id"> 
+                <img :src="mo.poster_path"> 
                 <div class="details"> 
-                    <h2> {{m.title}}</h2> <b>Release Date {{m.release_date}} </b>
-                    <div class="times" @click="reserve" v-for="m in movieTimes" v-bind:key="m.id" 
-                    @mouseover="mouseOver" >{{m.time}} </div>
+                    <h2> {{mo.title}}</h2> <b>Release Date {{mo.release_date}} </b>
+                    <div class="times" id="id++" v-for="m in movieTimes" @click ="reserve(m.id)" v-bind:key="m.id" 
+                       >{{m.time}} </div>
                 </div> 
             
             </div> 
@@ -25,12 +25,13 @@
 export default {
     //props:
     data() {
+        id: 0
 
         movieTimes: [
-            {time: "12:00 PM", seats: 30}, 
-            {time: "3:00 PM", seats: 30}, 
-            {time: "6:00 PM", seats: 30}, 
-            {time: "9:00 PM", seats: 30},
+            {time: "12:00 PM", seats: 30, id: 0}, 
+            {time: "3:00 PM", seats: 30, id: 1}, 
+            {time: "6:00 PM", seats: 30, id: 2}, 
+            {time: "9:00 PM", seats: 30, id: 3},
         ]
 
         //movies = [];
@@ -46,7 +47,8 @@ export default {
             {time: "3:00 PM", seats: 30}, 
             {time: "6:00 PM", seats: 30}, 
             {time: "9:00 PM", seats: 30},
-        ]
+        ],
+        id: 0
         }
     },
 
@@ -93,12 +95,15 @@ methods: {
 
 
     },
-    reserve: function() {
-        console.log("The current seats are:" + this.movies.id);
+    reserve: function(id) {
+
+        // console.log("The current seats are:" + this.movieTimes.seats);
+        console.log("The current id is:" + this.id);
 
     },
 
     mouseOver: function() {
+        
 
     }
 

@@ -11,8 +11,8 @@
       <!-- <router-link class="spacing" to="/sign">Sign Up</router-link> -->
        
        <!-- Passed props set from App to Naivation -->
-       <router-link class="spacing" v-show="this.authenticated" to="/login" v-on:click.native="logout()" replace>Logout</router-link>
-      
+      <router-link class="spacing" v-show="this.authenticated" to="/login" v-on:click.native="logout()" replace>Logout</router-link>
+      <router-link class="spacing" v-show="this.authenticated" to="/profile">Profile</router-link>
 
       
     </nav>
@@ -53,6 +53,11 @@ export default {
           id: 2,
           text: 'Sign Up',
           page:'/Sign'
+        },
+        {
+          id: 3,
+          text: 'Profile',
+          page:'/Profile'
         },
         {
           id: 0,
