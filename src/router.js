@@ -7,6 +7,7 @@ import Home from '@/components/Home'
 import About from '@/components/About'
 import Sign from '@/components/Sign'
 import Navigation from '@/components/Navigation'
+import Profile from '@/components/Profile'
 
 Vue.use(Router)
 
@@ -50,6 +51,11 @@ const router = new Router({
       path: '/navigation',
       name: 'Navigation',
       component: Navigation
+    },
+    {
+      path: '/profile',
+      name: 'Profile',
+      component: Profile
     }
   ]
 });
