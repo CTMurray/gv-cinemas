@@ -27,9 +27,9 @@
 
 export default {
   name: 'Navigation',
-  props: {
-    authenticated: Boolean
-  },
+  // props: {
+  //   authenticated: Boolean
+  // },
   data() {
     return {
       authenticated: false,
