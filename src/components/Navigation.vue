@@ -65,12 +65,12 @@ export default {
 
     methods: {
             setAuthenticated(status) {
-                this.props.authenticated = status;
+                this.authenticated = status;
                 this.$emit("authenticated", status); 
 
             },
             logout() {
-                this.props.authenticated = false;
+                this.authenticated = false;
                 this.$emit("authenticated", false); 
                 // MYDB.ref(authenticated).remove(firebase.auth().currentUser);
             }
