@@ -7,8 +7,12 @@
                 <img :src="mo.poster_path"> 
                 <div class="details"> 
                     <h2> {{mo.title}}</h2> <b>Release Date {{mo.release_date}} </b>
-                    <div class="times" id="id++" v-for="m in movieTimes" @click ="reserve(m.id)" v-bind:key="m.id" 
-                       >{{m.time}} </div>
+                    <div class="times" v-for="t in mo.movieTimes" v-bind:key="t.id">
+                        {{t}}
+                    </div>
+                    
+                     <!-- <div class="times" id="id++" v-for="m in movieTimes" @click ="reserve(m.id)" v-bind:key="m.id" 
+                       >{{m.time}} </div> -->
                 </div> 
             
             </div> 
@@ -26,6 +30,7 @@ export default {
     //props:
     data() {
         id: 0
+
 
         movieTimes: [
             {time: "12:00 PM", seats: 30, id: 0}, 
@@ -91,6 +96,11 @@ methods: {
         var iurl = "https://image.tmdb.org/t/p/w185";
         for(let i = 0; i < movies.length; i++ ){
             movies[i].poster_path = iurl + movies[i].poster_path;
+        }
+        //add 30 spots for movie theater
+        for(let i = 0; i < movies.length; i++ ){
+            movies[i].mvReservation = 30;
+            movies[i].movieTimes = { time1: "12:00 PM", time2: "3:00 PM", time3: "6:00 PM", time4: "9:00 PM" };
         }
 
 

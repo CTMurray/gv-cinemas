@@ -1,8 +1,12 @@
 <template>
     <div>
         <div id="user">
-            <input type="text" v-model="name" placeholder="Enter Name"> <br>
-            <input type="text" v-model="DOB" placeholder="mm/dd/yyyy"  > <br> 
+            <label for="name" align="left">Name</label><br>
+            <input type="text" v-model.trim="name" placeholder="Enter Name"> 
+             <br>
+            <label for="dob" align="left">DOB</label><br>
+            <input type="text" v-model.trim="DOB" placeholder="mm/dd/yyyy"  >
+             <br>
         </div>
         <br>
 
@@ -19,9 +23,9 @@
             <label for="drama">Drama</label>
             <input type="checkbox" id="horror" value="Horror" v-model="userData">
             <label for="horror">Crime</label>
-            <br>
+            <br><br>
 
-            <button>Submit</button>
+            <button >Submit</button>
         </div>
 
 
@@ -49,7 +53,18 @@ export default {
     }
 
 }
-</script>
+</script scoped>
+
+#user {
+    
+    display: grid;
+    border-radius: 10px;
+    border: 2px solid gray;
+    padding: 10px; 
+    width: 400px;
+    height: 350px;
+
+}
 
 <style>
 
