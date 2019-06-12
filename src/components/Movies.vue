@@ -6,26 +6,24 @@
                     <!-- <template v-slot:activator="{ on }"> -->
                     <v-layout class="details" > 
                         <h2> {{mo.title}}</h2> <b>Release Date {{mo.release_date}} </b> <b> Movie ID {{mo.id}} </b>
-                        <div  class="times" v-for="(t, index) in mo.sessions" @click="reserve(`${t.time}`, `${t.reservation-=1}`, `${index}`, `${id}`)" v-bind:key="index" >
+                        <div  class="times" v-for="(t, index) in mo.sessions" @click="reserve(`${t.time}`, `${t.reservation-=1}`, `${index}`, `${mo.title}` )" v-bind:key="index" >
                               <v-btn color="primary" >  {{t.time}} </v-btn>
-                            
-                    
-               
+                        
 
-                        <v-tooltip right >
+                        <!-- <v-tooltip right > -->
                             <!-- <template v-slot:activator="{ on }"  -->
-                            <v-btn >Reserve</v-btn>
+                            <!-- <v-btn >Reserve</v-btn> -->
                                     <!-- {{t.time}}  -->
                                     
                             <!-- </template> -->
                         <!-- <span > Reservation </span> -->
                         
                             
-                        </v-tooltip>
+                        <!-- </v-tooltip> -->
                         </div>
-                        <v-flex class="button">
+                        <!-- <v-flex class="button"> -->
                         <!-- <v-btn @click="reserve " small round color="success">Reserve</v-btn> -->
-                        </v-flex>
+                        <!-- </v-flex> -->
                     </v-layout>
            </v-layout>
        </v-container>
@@ -129,31 +127,36 @@ methods: {
 
 
     },
-    reserve: function(time, reservation, index, id) {
+    reserve: function(time, reservation, index, title, ) {
 
         // confirm('Your message')
         // .then(result => {
         //     console.log(result);
         // });
 
-        // console.log("The current seats are:" + this.movieTimes.seats);
-        // console.log("The current id is:" + this.id);
-        // reservation -=1;
+        let currentUser = firebase.auth().currentUser.email;
 
         alert("Reservation created " + reservation + " are left!");
         // console.log("The current user is: " + this.firebase.auth().currentUser);
         console.log("The current time is: " + time);
         console.log("The current seats are: " + reservation);
-        console.log("index is: " + index);
+        // console.log("index is: " + index);
+        console.log("Title is: " + title);
         console.log("user id is: " + firebase.auth().currentUser.email);
+
+        MYDB.ref("reservation").push().set({
+            movie: title, 
+            time: time, 
+            user: currentUser
+            });
         
 
     },
 
-    mouseOver: function() {
+    // mouseOver: function() {
         
 
-    }
+    // }
 
 
 

@@ -15,7 +15,7 @@
                     <label for="password1" align="left">Password</label>
                     <v-text-field v-model.trim="loginForm.password" outline type="password" placeholder="******" id="password1" />
 
-                    <v-btn class="button" v-on:click="signIn" >Log In</v-btn>
+                    <v-btn success class="button" v-on:click="signIn" >Log In</v-btn>
 
 
                     <div class="extras">
@@ -86,7 +86,7 @@
                         var uid = user.uid;
                         var providerData = user.providerData;
                         
-                        this.$emit(user, true);  
+                        // this.$emit(user, true);  
                         this.$root.email = user.email;
                         // ...
                     } else {
