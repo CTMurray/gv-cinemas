@@ -10,10 +10,10 @@
                     <h1>Welcome Lakers</h1>
 
                     <label for="email1" align="left">Email</label>
-                    <v-input v-model.trim="loginForm.email" outline type="text" placeholder="live@email.com" id="email1" />
+                    <v-text-field v-model.trim="loginForm.email" outline type="text" placeholder="live@email.com" id="email1" />
 
                     <label for="password1" align="left">Password</label>
-                    <v-input v-model.trim="loginForm.password" outline type="password" placeholder="******" id="password1" />
+                    <v-text-field v-model.trim="loginForm.password" outline type="password" placeholder="******" id="password1" />
 
                     <v-btn class="button" v-on:click="signIn" >Log In</v-btn>
 
@@ -64,6 +64,7 @@
 
                     //default view that shows the currently available movies
                     this.$router.replace('home');
+                    this.$root.email = user.email;
                     console.log("User " + this.loginForm.email + " is authenticated");
                 }
                
@@ -84,6 +85,9 @@
                         var isAnonymous = user.isAnonymous;
                         var uid = user.uid;
                         var providerData = user.providerData;
+                        
+                        this.$emit(user, true);  
+                        this.$root.email = user.email;
                         // ...
                     } else {
                         // User is signed out.

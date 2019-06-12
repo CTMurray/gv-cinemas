@@ -2,10 +2,10 @@
     <div>
         <div id="user">
             <label for="name" align="left">Name</label><br>
-            <input type="text" v-model.trim="name" placeholder="Enter Name"> 
+            <v-text-field outline type="text" v-model.trim="name" placeholder="Enter Name"/> 
              <br>
             <label for="dob" align="left">DOB</label><br>
-            <input type="text" v-model.trim="DOB" placeholder="mm/dd/yyyy"  >
+            <v-text-field outline type="text" v-model.trim="DOB" placeholder="mm/dd/yyyy"  />
              <br>
         </div>
         <br>
@@ -25,7 +25,7 @@
             <label for="horror">Crime</label>
             <br><br>
 
-            <button >Submit</button>
+            <v-btn color="success">Submit</v-btn>
         </div>
 
 

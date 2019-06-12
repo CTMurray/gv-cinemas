@@ -11,8 +11,12 @@
       <!-- <router-link class="spacing" to="/sign">Sign Up</router-link> -->
        
        <!-- Passed props set from App to Naivation -->
-      <router-link class="spacing" v-show="this.authenticated" to="/login" v-on:click.native="logout()" replace>Logout</router-link>
-      <router-link class="spacing" v-show="this.authenticated" to="/profile">Profile</router-link>
+       
+      <router-link class="spacing" v-if="this.authenticated" to="/login" v-on:click.native="logout()" 
+      replace>Logout</router-link>
+      <router-link class="spacing" v-else to="/login" v-on:click.native="logout()" 
+      replace>Login</router-link>
+      <router-link class="spacing" v-show="!this.authenticated" to="/profile">Profile</router-link>
 
       
     </nav>
@@ -77,6 +81,7 @@ export default {
             logout() {
                 this.authenticated = false;
                 this.$emit("authenticated", false); 
+                this.$router.push("/");
                 // MYDB.ref(authenticated).remove(firebase.auth().currentUser);
             }
         },

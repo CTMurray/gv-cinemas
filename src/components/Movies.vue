@@ -4,24 +4,29 @@
            <v-layout class="movielist" v-for="mo in movies" v-bind:key="mo.id"> 
                 <img :src="mo.poster_path"> 
                     <!-- <template v-slot:activator="{ on }"> -->
-                    <v-layout class="details"> 
-                    <h2> {{mo.title}}</h2> <b>Release Date {{mo.release_date}} </b>
-                    <div class="times" v-for="(t, index) in mo.sessions" v-bind:key="index">
-                            <!-- {{t.time}}  -->
+                    <v-layout class="details" > 
+                        <h2> {{mo.title}}</h2> <b>Release Date {{mo.release_date}} </b> <b> Movie ID {{mo.id}} </b>
+                        <div  class="times" v-for="(t, index) in mo.sessions" @click="reserve(`${t.time}`, `${t.reservation-=1}`, `${index}`, `${id}`)" v-bind:key="index" >
+                              <v-btn color="primary" >  {{t.time}} </v-btn>
+                            
                     
                
 
-                        <v-tooltip right>
-                        <template v-slot:activator="{ on }">
-                                <!-- <v-btn color="primary" dark v-on="on">Right</v-btn> -->
-                                {{t.time}} 
-
-                        </template>
+                        <v-tooltip right >
+                            <!-- <template v-slot:activator="{ on }"  -->
+                            <v-btn >Reserve</v-btn>
+                                    <!-- {{t.time}}  -->
+                                    
+                            <!-- </template> -->
+                        <!-- <span > Reservation </span> -->
                         
-                            <span>{{t.seats}}</span>
+                            
                         </v-tooltip>
-                    </div>
-                </v-layout>
+                        </div>
+                        <v-flex class="button">
+                        <!-- <v-btn @click="reserve " small round color="success">Reserve</v-btn> -->
+                        </v-flex>
+                    </v-layout>
            </v-layout>
        </v-container>
 
@@ -32,6 +37,11 @@
 </template>
 
 <script>
+    import { MYDB } from "../myFirebaseInit";
+    import firebase from '@firebase/app';
+    require('firebase/auth');
+
+
 export default {
     //props:
     data() {
@@ -48,6 +58,7 @@ export default {
         //movies = [];
         iurl: "https://image.tmdb.org/t/p/w185";
         return {
+            hover: false,
             movies: [
                 {id: 458156, title:  "John Wick: Chapter 3 – Parabellum" , release_date: "2019-05-15", poster_path: "https://image.tmdb.org/t/p/w185/ziEuG1essDuWuC5lpWUaw1uXY2O.jpg", sessions:[]},
                 {id: 420817, title:  "Aladdin" , release_date: "2019-05-15", poster_path: "https://image.tmdb.org/t/p/w185/3iYQTLGoy7QnjcUYRJy4YrAgGvp.jpg", sessions:[] }
@@ -109,19 +120,33 @@ methods: {
             movies[i].mvReservation = 30;
             //movies[i].movieTimes = { time1: "12:00 PM", time2: "3:00 PM", time3: "6:00 PM", time4: "9:00 PM" };
             movies[i].sessions = [
-                {time: "12:00", reservation: 30},
-                {time: "3:00",  reservation: 30},
-                {time: "6:00",  reservation: 30},
-                {time: "9:00",  reservation: 30},
+                {time: "12:00 PM", reservation: 30},
+                {time: "3:00 PM",  reservation: 30},
+                {time: "6:00 PM",  reservation: 30},
+                {time: "9:00 PM",  reservation: 30},
             ];
         }
 
 
     },
-    reserve: function(id) {
+    reserve: function(time, reservation, index, id) {
+
+        // confirm('Your message')
+        // .then(result => {
+        //     console.log(result);
+        // });
 
         // console.log("The current seats are:" + this.movieTimes.seats);
-        console.log("The current id is:" + this.id);
+        // console.log("The current id is:" + this.id);
+        // reservation -=1;
+
+        alert("Reservation created " + reservation + " are left!");
+        // console.log("The current user is: " + this.firebase.auth().currentUser);
+        console.log("The current time is: " + time);
+        console.log("The current seats are: " + reservation);
+        console.log("index is: " + index);
+        console.log("user id is: " + firebase.auth().currentUser.email);
+        
 
     },
 
@@ -161,19 +186,23 @@ created() {
 
 <style scoped>
 
- .times:hover {
+.button {
+    width:30%;
+}
+
+ /* .times:hover {
      background: red;
     
-}
+} */
 
 .times {
     display: flex;
     justify-content: space-around;
     width: 80px;
     border-collapse: separate;
-    background-color: lightskyblue;
+    /* background-color: lightskyblue; */
 
-    border: 1px solid black;
+    /* border: 1px solid black; */
     padding: 3px;
     margin-left: 0.5rem;
     user-select: none;
