@@ -1,31 +1,34 @@
-<template>
-    <div>
-        <!-- Movies will go here -->
-        <div id="container">
-            <!-- <span @mouseleave="getMovies" class="container" v-for="m in movies" v-bind:key="m.id"  -->
-            <div class="movielist" v-for="mo in movies" v-bind:key="mo.id"> 
+<template >
+   <div>
+       <v-container id="container">
+           <v-layout class="movielist" v-for="mo in movies" v-bind:key="mo.id"> 
                 <img :src="mo.poster_path"> 
-                <div class="details"> 
+                    <!-- <template v-slot:activator="{ on }"> -->
+                    <v-layout class="details"> 
                     <h2> {{mo.title}}</h2> <b>Release Date {{mo.release_date}} </b>
                     <div class="times" v-for="(t, index) in mo.sessions" v-bind:key="index">
-                        {{t.time}} 
-                        <!-- {{t.sessions.time.time2}} 
-                        {{t.sessions.time.time3}} 
-                        {{t.sessions.time.time4}} -->
-                    </div>
+                            <!-- {{t.time}}  -->
                     
-                     <!-- <div class="times" id="id++" v-for="m in movieTimes" @click ="reserve(m.id)" v-bind:key="m.id" 
-                       >{{m.time}} </div> -->
-                </div> 
-            
-            </div> 
+               
 
-            <!-- {{m.overview}} -->
+                        <v-tooltip right>
+                        <template v-slot:activator="{ on }">
+                                <!-- <v-btn color="primary" dark v-on="on">Right</v-btn> -->
+                                {{t.time}} 
 
-        </div>
+                        </template>
+                        
+                            <span>{{t.seats}}</span>
+                        </v-tooltip>
+                    </div>
+                </v-layout>
+           </v-layout>
+       </v-container>
 
-    </div>
-    
+
+
+   </div> 
+  
 </template>
 
 <script>
@@ -56,7 +59,8 @@ export default {
             {time: "6:00 PM", seats: 30}, 
             {time: "9:00 PM", seats: 30},
         ],
-        id: 0
+        id: 0,
+        
         }
     },
 
@@ -178,6 +182,7 @@ created() {
     color: white;
     text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
     white-space: nowrap;
+    /* grid-gap: 2px; */
 }
 
 /* .times:hover {

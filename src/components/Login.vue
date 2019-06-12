@@ -10,12 +10,12 @@
                     <h1>Welcome Lakers</h1>
 
                     <label for="email1" align="left">Email</label>
-                    <input v-model.trim="loginForm.email" type="text" placeholder="I-live@email.com" id="email1" />
+                    <v-input v-model.trim="loginForm.email" outline type="text" placeholder="live@email.com" id="email1" />
 
                     <label for="password1" align="left">Password</label>
-                    <input v-model.trim="loginForm.password" type="password" placeholder="******" id="password1" />
+                    <v-input v-model.trim="loginForm.password" outline type="password" placeholder="******" id="password1" />
 
-                    <button class="button" v-on:click="signIn" >Log In</button>
+                    <v-btn class="button" v-on:click="signIn" >Log In</v-btn>
 
 
                     <div class="extras">
@@ -115,7 +115,7 @@ label {
   }
   input {
     margin: 10px 0;
-    width: 30%;
+    width: 40%;
     padding: 15px;
   }
   button {
