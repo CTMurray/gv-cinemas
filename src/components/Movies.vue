@@ -14,9 +14,9 @@
                             <v-btn v-on="on">{{t.time}}</v-btn>
                             </template>
                             <v-list >
-                            <v-list-tile  v-for="(item, i) in items" :key="i" 
-                            @click="reserve(`${t.time}`, `${t.reservation-=1}`, `${index}`, `${mo.title}`, `${item.title}` )">
-                                <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+                            <v-list-tile  v-for="(day, i) in days" :key="i" 
+                            @click="reserve(`${t.time}`, `${t.reservation-=1}`, `${index}`, `${mo.title}`, `${day.title}` )">
+                                <v-list-tile-title>{{ day.title }}</v-list-tile-title>
                             </v-list-tile>
                             </v-list>
                         </v-menu>
@@ -87,12 +87,12 @@ export default {
         ],
         id: 0,
 
-        items: [
+        days: [
           {
-            title: 'Saturday'
+            title: 'saturday'
           },
           {
-            title: 'Sunday'
+            title: 'sunday'
           },
         //   {
         //     title: 'Click Me'
@@ -178,7 +178,15 @@ methods: {
         console.log("user id is: " + firebase.auth().currentUser.email);
 
         //push reservation to firebase
-        MYDB.ref("reservation").push().set({
+        // MYDB.ref("reservation").push().set({
+        //     movie: title, 
+        //     time: time, 
+        //     user: currentUser
+        //     });
+
+
+            //push reservation to firebase for specific day
+            MYDB.ref("reservation/" + day).push().set({
             movie: title, 
             time: time, 
             user: currentUser
