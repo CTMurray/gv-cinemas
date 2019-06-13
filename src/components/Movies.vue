@@ -34,11 +34,6 @@
                         <!-- </v-tooltip> -->
                         </div>
 
-                        
-
-                            
-                        
-
                         <!-- <v-flex class="button"> -->
                         <!-- <v-btn @click="reserve " small round color="success">Reserve</v-btn> -->
                         <!-- </v-flex> -->
@@ -192,23 +187,19 @@ methods: {
         if(day !== null){
 
             var queryb = MYDB.ref("reservation/" + day)   //orderByKey().limitToFirst(20);
-            queryb.once("value", function(snapshot){
+            queryb.on("value", (snapshot) =>{
 
                 var cData = snapshot.val();
-                 Object.keys(cData).forEach(function (item) {
+                 Object.keys(cData).forEach((item) => {
                     //console.log(item); // key
                     //console.log(cData[item].movie); // value
 
                     //correlates the selection of a day and time counts the reservations
                     //if there are not enough don't process reservation
                     if((cData[item].movie == title) && (cData[item].time == time )) {
-                        count+=1;   
-                        
-                        
-
+                        count+=1;  
                         
                     }
-                    
 
                     //are there spots available?
                     if(count < 2) {  
@@ -234,13 +225,13 @@ methods: {
                     });
                     
 
-                    //queryb.off("value");
+                    queryb.off("value");
                         
                                     
 
 
                 //});
-                console.log("satCount is: " + satCount);
+                //console.log("satCount is: " + count);
                 console.log("===========================");
 
 
