@@ -5,7 +5,8 @@
                 <img :src="mo.poster_path"> 
                     <!-- <template v-slot:activator="{ on }"> -->
                     <v-layout class="details" > 
-                        <h2> {{mo.title}}</h2> <b>Release Date {{mo.release_date}} </b> <b> Movie ID {{mo.id}} </b>
+                        <h2> {{mo.title}}</h2> <b>Release Date {{mo.release_date}} </b> 
+                        <!-- <b> Movie ID {{mo.id}} </b> -->
                         <div  class="times" v-for="(t, index) in mo.sessions"  v-bind:key="index" >
                               <!-- <v-btn color="primary" >  {{t.time}} </v-btn> @click="reserve(`${t.time}`, `${t.reservation-=1}`, `${index}`, `${mo.title}` )"-->
                         
@@ -86,6 +87,7 @@ export default {
             {time: "9:00 PM", seats: 30},
         ],
         id: 0,
+        
 
         days: [
           {
@@ -161,21 +163,169 @@ methods: {
     },
     reserve: function(time, reservation, index, title, day) {
 
-        
+        let count = 0;
+        // let sunCount = 0;
+        let currentUser = firebase.auth().currentUser.email;   
+
+        // let queryc = MYDB.ref("reservation/saturday");
+        // queryc.transaction(function(currentData) {
+        //     if (currentData.movie === title && currentData.time === time) {
+        //         return { movie: title, time: time, user: currentUser };
+        //     } else {
+        //         console.log('failed.');
+        //         return; // Abort the transaction.
+        //     }
+        // }, function(error, committed, snapshot) {
+        //     if (error) {
+        //         console.log('Transaction failed abnormally!', error);
+        //     } else if (!committed) {
+        //         console.log('We aborted the transaction ' + currentData);
+        //     } else {
+        //         console.log('Reservation added!');
+        //     }
+        //     console.log("Reservation data: ", snapshot.val());
+        //     });
+
+
+
+
+        if(day !== null){
+
+            var queryb = MYDB.ref("reservation/" + day)   //orderByKey().limitToFirst(20);
+            queryb.once("value", function(snapshot){
+
+                var cData = snapshot.val();
+                 Object.keys(cData).forEach(function (item) {
+                    //console.log(item); // key
+                    //console.log(cData[item].movie); // value
+
+                    //correlates the selection of a day and time counts the reservations
+                    //if there are not enough don't process reservation
+                    if((cData[item].movie == title) && (cData[item].time == time )) {
+                        count+=1;   
+                        
+                        
+
+                        
+                    }
+                    
+
+                    //are there spots available?
+                    if(count < 2) {  
+                        
+                            //push reservation to firebase for specific day
+                            MYDB.ref("reservation/" + day).push().set({
+                            movie: title, 
+                            time: time, 
+                            user: currentUser
+                            });
+
+                            alert("Reservation successful for " + firebase.auth().currentUser.email);
+                            return true;
+                           
+
+                        } else {
+                            alert("Reservation are full for " + title);
+                            return true;
+                            
+                        }
+                       
+
+                    });
+                    
+
+                    //queryb.off("value");
+                        
+                                    
+
+
+                //});
+                console.log("satCount is: " + satCount);
+                console.log("===========================");
+
+
+            //console.log(snapshot.val());
+            //}
+            // }, function (errorObject) {
+            // console.log("The read failed: " + errorObject.code);
+             });
+            //queryb.off("value");
+
+            // Loop through users in order with the forEach() method. The callback
+            // provided to forEach() will be called synchronously with a DataSnapshot
+            // for each child:
+
+            // var query = MYDB.ref("reservation/saturday").orderByChild("saturday/movie");   //orderByKey();
+            // query.once("value")
+            // .then(function(snapshot) {
+            //     snapshot.forEach(function(childSnapshot) {
+            //     // key will be "ada" the first time and "alan" the second time
+            //     var key = childSnapshot.key;
+            //     // childData will be the actual contents of the child
+            //     var childData = childSnapshot.val();
+
+                //prints only one record
+                // Object.keys(childData).forEach(function (item) {
+                //     console.log(item); // key
+                //     console.log(childData[item]); // value
+                // });
+
+           
+            //    console.log("child data is: " + childData.time);
+            //    console.log("satCount is: " + satCount);
+
+                // if(childData.movie == title && childData.time == time ) {
+                //     satCount+=1;
+                //     if(satCount < 1) {
+                //         //push reservation to firebase for specific day
+                //         MYDB.ref("reservation/" + day).push().set({
+                //         movie: title, 
+                //         time: time, 
+                //         user: currentUser
+                //         });
+
+                //         alert("Reservation successful for " + firebase.auth().currentUser.email);
+                //         return true;
+
+                //     }
+                //     else {
+                //         alert("Reservation are full for " + title);
+                //         return true;
+                //     }
+                // } else {
+                //         alert("Reservation are full for " + title);
+                //         return true;
+                //     }
+
+                
+
+
+            // });
+            // });
+
+
+            
+
+        }
+
+        // if(day == "sunday") {
+
+        // }
         // confirm('Your message')
         // .then(result => {
         //     console.log(result);
         // });
 
-        let currentUser = firebase.auth().currentUser.email;
+        // let currentUser = firebase.auth().currentUser.email;
 
-        alert("Reservation created " + reservation + " are left!");
+        // alert("Reservation created " + reservation + " are left!");
+
         // console.log("The current user is: " + this.firebase.auth().currentUser);
-        console.log("The current time is: " + time);
-        console.log("The current seats are: " + reservation);
-        console.log("Day is: " + day);
-        console.log("Title is: " + title);
-        console.log("user id is: " + firebase.auth().currentUser.email);
+        // console.log("The current time is: " + time);
+        // console.log("The current seats are: " + reservation);
+        // console.log("Day is: " + day);
+        // console.log("Title is: " + title);
+        // console.log("user id is: " + firebase.auth().currentUser.email);
 
         //push reservation to firebase
         // MYDB.ref("reservation").push().set({
@@ -186,11 +336,11 @@ methods: {
 
 
             //push reservation to firebase for specific day
-            MYDB.ref("reservation/" + day).push().set({
-            movie: title, 
-            time: time, 
-            user: currentUser
-            });
+            // MYDB.ref("reservation/" + day).push().set({
+            // movie: title, 
+            // time: time, 
+            // user: currentUser
+            // });
         
 
     },
