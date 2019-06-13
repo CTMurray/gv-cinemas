@@ -6,9 +6,20 @@
                     <!-- <template v-slot:activator="{ on }"> -->
                     <v-layout class="details" > 
                         <h2> {{mo.title}}</h2> <b>Release Date {{mo.release_date}} </b> <b> Movie ID {{mo.id}} </b>
-                        <div  class="times" v-for="(t, index) in mo.sessions" @click="reserve(`${t.time}`, `${t.reservation-=1}`, `${index}`, `${mo.title}` )" v-bind:key="index" >
-                              <v-btn color="primary" >  {{t.time}} </v-btn>
+                        <div  class="times" v-for="(t, index) in mo.sessions"  v-bind:key="index" >
+                              <!-- <v-btn color="primary" >  {{t.time}} </v-btn> @click="reserve(`${t.time}`, `${t.reservation-=1}`, `${index}`, `${mo.title}` )"-->
                         
+                        <v-menu bottom offset-y>
+                            <template v-slot:activator="{ on }">
+                            <v-btn v-on="on">{{t.time}}</v-btn>
+                            </template>
+                            <v-list >
+                            <v-list-tile  v-for="(item, i) in items" :key="i" 
+                            @click="reserve(`${t.time}`, `${t.reservation-=1}`, `${index}`, `${mo.title}`, `${item.title}` )">
+                                <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+                            </v-list-tile>
+                            </v-list>
+                        </v-menu>
 
                         <!-- <v-tooltip right > -->
                             <!-- <template v-slot:activator="{ on }"  -->
@@ -21,6 +32,12 @@
                             
                         <!-- </v-tooltip> -->
                         </div>
+
+                        
+
+                            
+                        
+
                         <!-- <v-flex class="button"> -->
                         <!-- <v-btn @click="reserve " small round color="success">Reserve</v-btn> -->
                         <!-- </v-flex> -->
@@ -69,6 +86,21 @@ export default {
             {time: "9:00 PM", seats: 30},
         ],
         id: 0,
+
+        items: [
+          {
+            title: 'Saturday'
+          },
+          {
+            title: 'Sunday'
+          },
+        //   {
+        //     title: 'Click Me'
+        //   },
+        //   {
+        //     title: 'Click Me 2'
+        //   }
+        ],
         
         }
     },
@@ -127,8 +159,9 @@ methods: {
 
 
     },
-    reserve: function(time, reservation, index, title, ) {
+    reserve: function(time, reservation, index, title, day) {
 
+        
         // confirm('Your message')
         // .then(result => {
         //     console.log(result);
@@ -140,10 +173,11 @@ methods: {
         // console.log("The current user is: " + this.firebase.auth().currentUser);
         console.log("The current time is: " + time);
         console.log("The current seats are: " + reservation);
-        // console.log("index is: " + index);
+        console.log("Day is: " + day);
         console.log("Title is: " + title);
         console.log("user id is: " + firebase.auth().currentUser.email);
 
+        //push reservation to firebase
         MYDB.ref("reservation").push().set({
             movie: title, 
             time: time, 

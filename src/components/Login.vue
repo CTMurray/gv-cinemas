@@ -15,7 +15,7 @@
                     <label for="password1" align="left">Password</label>
                     <v-text-field v-model.trim="loginForm.password" outline type="password" placeholder="******" id="password1" />
 
-                    <v-btn success class="button" v-on:click="signIn" >Log In</v-btn>
+                    <v-btn color="success" class="button" v-on:click="signIn" >Log In</v-btn>
 
 
                     <div class="extras">
@@ -64,7 +64,7 @@
 
                     //default view that shows the currently available movies
                     this.$router.replace('home');
-                    this.$root.email = user.email;
+                    // this.$root.email = user.email;
                     console.log("User " + this.loginForm.email + " is authenticated");
                 }
                
@@ -87,7 +87,7 @@
                         var providerData = user.providerData;
                         
                         // this.$emit(user, true);  
-                        this.$root.email = user.email;
+                        // this.$root.email = user.email;
                         // ...
                     } else {
                         // User is signed out.
